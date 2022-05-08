@@ -5,9 +5,10 @@ import { ITaxonomyRepository } from '../../repositories/ITaxonomyRepository';
 
 interface IImportCSV {
     // dados arquivo csv
-    name: string;
+    name1: string;
+    name2: string;
 }
-class ImportCSVUseCase {
+class ImportLocalCSVUseCase {
     constructor(private taxonomiesRepository: ITaxonomyRepository) {}
 
     async execute(file: Express.Multer.File): Promise<IImportCSV[]> {
@@ -20,20 +21,25 @@ class ImportCSVUseCase {
             stream.pipe(parseFile);
             parseFile
                 .on('data', async (line) => {
-                    const [name] = line;
+                    const [name1,name2] = line;
                     taxonomies.push({
-                        name,
+                        name1,
+                        name2
                     });
                 })
                 .on('end', () => {
-                    fs.promises.unlink(file.path);
+                    fs.promises.unlink(file.path); // a fazer - deletar arquivo apenas quando requisitar a listagem
                     resolve(taxonomies);
+                    return taxonomies;
+
                 })
                 .on('error', (err) => {
                     reject(err);
+                    return [];
                 });
         });
+
     }
 }
 
-export { ImportCSVUseCase };
+export { ImportLocalCSVUseCase };
