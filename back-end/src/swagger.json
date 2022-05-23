@@ -1,0 +1,340 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Taxonhub API",
+        "description": "This is an API Taxon",
+        "version": "1.0.0",
+        "contact": {
+            "name": "Taxonhub"
+        }
+    },
+    "paths": {
+        "/": {
+            "post": {
+                "tags": [
+                    "taxonomyRoutes"
+                ],
+                "summary": "Create a new category",
+                "description": "Create a new category",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "searchedName": {
+                                        "type": "string",
+                                        "description": "Category searched name"
+                                    },
+                                    "returnedName": {
+                                        "type": "string",
+                                        "description": "Category returned name"
+                                    },
+                                    "acceptedNameOrSynonym": {
+                                        "type": "string",
+                                        "description": "Category accepted name or synonym"
+                                    },
+                                    "synonymName": {
+                                        "type": "string",
+                                        "description": "Category synonym name"
+                                    },
+                                    "dataset": {
+                                        "type": "string",
+                                        "description": "Category dataset"
+                                    },
+                                    "respectiveFamily": {
+                                        "type": "string",
+                                        "description": "Category respective family"
+                                    }
+                                }
+                            }
+                           
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Category created"
+                    },
+                    "400": {
+                        "description": "Invalid category object"
+                       
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "taxonomyRoutes"
+                ],
+                "summary": "List all categories",
+                "description": "List all categories",
+                "responses": {
+                    "200": {
+                        "description": "Categories list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "format": "int64",
+                                                "description": "Category id",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Category name"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Category description"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/specie" : {
+            "post": {
+                "tags": [
+                    "taxonomyRoutes"
+                ],
+                "summary": "scientificName categories",
+                "description": "scientificName categories",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                           
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Categories imported"
+                    },
+                    "400": {
+                        "description": "Invalid category object"
+                       
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/generatecsv": {
+            "post": {
+                "tags": [
+                    "taxonomyRoutes"
+                ],
+                "summary": "generate csv categories",
+                "description": "generate csv categories",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Specification"
+                            }
+                           
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Specification created"
+                    },
+                    "400": {
+                        "description": "Invalid specification object"
+                       
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "taxonomyRoutes"
+                ],
+                "summary": "generate csv categories",
+                "description": "generate csv categories",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "fileId": {
+                                                "type": "string"
+                                            },
+                                            "columnNames": {
+                                                "type": "string",
+                                                "description": "Specification columnNames "
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/import" : {
+            "post": {
+                "tags": [
+                    "taxonomyRoutes"
+                ],
+                "summary": "import csv categories",
+                "description": "import csv categories",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "stream": {
+                                        "type": "string"
+                                    },
+                                    "taxonomies": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                           
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Categories imported"
+                    },
+                    "400": {
+                        "description": "Invalid category object"
+                       
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/version" : {
+            "post": {
+                "tags": [
+                    "wfoRoutes"
+                ],
+                "summary": "last version categories",
+                "description": "last version categories",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                           
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Categories imported"
+                    },
+                    "400": {
+                        "description": "Invalid category object"
+                       
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/dbstatus" : {
+            "post": {
+                "tags": [
+                    "wfoRoutes"
+                ],
+                "summary": "dbstatus categories",
+                "description": "dbstatus categories",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                           
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Categories imported"
+                    },
+                    "400": {
+                        "description": "Invalid category object"
+                       
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Specification": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Specification name"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Specification description"
+                }
+            }
+        }
+    }
+}
