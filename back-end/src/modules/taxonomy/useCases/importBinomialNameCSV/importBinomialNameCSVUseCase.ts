@@ -1,5 +1,6 @@
 import csvParser from 'csv-parser';
 import fs from 'fs';
+import { FileException } from 'src/modules/exception/FileException';
 import { DefaultResponse } from 'src/modules/http/defaultResponse';
 import { EHttpStatuses } from 'src/modules/http/httpStatus';
 
@@ -13,13 +14,29 @@ class ImportBinomialNameCSVUseCase {
     ): Promise<DefaultResponse<unknown>> {
         const stream = fs.createReadStream(file.path);
 
+        try {
+            if (fs.statSync(file.path).size === 0) {
+                throw new FileException(
+                    EHttpStatuses.BAD_REQUEST,
+                    'File must not be empty',
+                );
+            }
+        } catch (e: unknown) {
+            if (e instanceof FileException) {
+                return new DefaultResponse<unknown>(e.status, {
+                    correct: false,
+                    message: e.message,
+                });
+            }
+        }
+
         const incorrectNames = [];
 
         try {
             await new Promise((resolve, reject) => {
                 stream
                     .pipe(csvParser())
-                    .on('data', async (row) => {
+                    .on('data', (row) => {
                         const name: IBinomialName = row;
 
                         if (!this.parseLine(name)) {
@@ -27,7 +44,12 @@ class ImportBinomialNameCSVUseCase {
                         }
                     })
                     .on('error', () => {
-                        reject(new Error('error'));
+                        reject(
+                            new FileException(
+                                EHttpStatuses.INTERNAL_SERVER_ERROR,
+                                'Error on file import',
+                            ),
+                        );
                     })
                     .on('end', () => {
                         resolve('');
@@ -49,10 +71,14 @@ class ImportBinomialNameCSVUseCase {
         });
     }
 
+    private onlyLetters(str: string): boolean {
+        return /^[a-zA-Z\s]+$/.test(str);
+    }
+
     private parseLine(line: IBinomialName): boolean {
         const count = (line.binomialName.match(/ /g) || []).length;
 
-        return count === 1;
+        return this.onlyLetters(line.binomialName) && count === 1;
     }
 }
 

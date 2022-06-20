@@ -1,6 +1,7 @@
 import cron from 'node-cron';
 
 import { EMetaTableValues } from '../wfo/enumerators/types';
+import { wfoRepository } from '../wfo/repositories';
 import { downloadNewDataUseCase } from '../wfo/useCases/downloadNewData';
 import { getDatabaseStatusUseCase } from '../wfo/useCases/getDatabaseStatus';
 import { IDBStatus } from '../wfo/useCases/getDatabaseStatus/getDatabaseStatusUseCase';
@@ -9,15 +10,18 @@ import { IVersionData } from '../wfo/useCases/getVersion/types';
 import { updateDatabaseUseCase } from '../wfo/useCases/updateDatabase';
 
 const checkVersionAndUpdate = async () => {
-    console.log('checking version..');
-
     const data: IVersionData = await getVersionUseCase.execute();
 
+    const datetime = new Date();
+
+    console.log('version check performed at:', datetime);
     console.log('Is updated:', data.isUpdated);
 
     if (!data.isUpdated && data.versionFromWebsite) {
         await downloadNewDataUseCase.execute();
         await updateDatabaseUseCase.execute(data.versionFromWebsite);
+    } else {
+        wfoRepository.updateDatabasePhaseStatus(EMetaTableValues.stable);
     }
 };
 

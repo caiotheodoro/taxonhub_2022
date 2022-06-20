@@ -20,8 +20,6 @@ class DownloadNewDataUseCase {
                 .filter((link) => link.includes('zip'));
         });
 
-        //pick first url
-       
         if (url === undefined || url === null) {
             throw new Error('Url was not found.');
         }

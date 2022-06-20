@@ -3,6 +3,7 @@ import fs from 'fs';
 import getStream from 'get-stream';
 import ObjectsFromCsv from 'objects-to-csv';
 import { FILES_FOLDER } from 'src/modules/config/constants';
+import { OccurrencyException } from 'src/modules/exception/OccurrencyException';
 import { DefaultResponse } from 'src/modules/http/defaultResponse';
 import { GBIF_OCCURENCE_API } from 'src/modules/http/gbifClient';
 import { EHttpStatuses } from 'src/modules/http/httpStatus';
@@ -51,7 +52,10 @@ class GetOccurrencyUseCase {
 
         fs.writeFile(outputFilePath, columnNames, (err) => {
             if (err) {
-                console.log(err);
+                throw new OccurrencyException(
+                    EHttpStatuses.INTERNAL_SERVER_ERROR,
+                    'FILE ERROR',
+                );
             }
         });
 
@@ -115,40 +119,34 @@ class GetOccurrencyUseCase {
                 return this.getDataFromGbifAPI(offset, limit, binomialName);
             }
 
-            const filteredResults = [];
-
-            results.forEach((result: IGbifOccurrence) => {
-                if (result.decimalLatitude && result.decimalLongitude) {
-                    if (
+            return results
+                .filter(
+                    (result: IGbifOccurrence) =>
+                        result.decimalLatitude && result.decimalLongitude,
+                )
+                .filter(
+                    (result: IGbifOccurrence) =>
                         result.decimalLatitude !== 0 &&
-                        result.decimalLongitude !== 0
-                    )
-                        filteredResults.push({
-                            entryName: binomialName,
-                            foundName: result.scientificName,
-                            acceptedName: result.acceptedScientificName,
-                            dataset: EDataset.GBIF,
-                            family: result.family,
-                            country: result.country,
-                            year: result.year,
-                            month: result.month,
-                            day: result.day,
-                            latitude: result.decimalLatitude,
-                            longitude: result.decimalLongitude,
-                        });
-                }
-            });
-
-            return filteredResults;
+                        result.decimalLongitude !== 0,
+                )
+                .map((result: IGbifOccurrence) => ({
+                    entryName: binomialName,
+                    foundName: result.scientificName,
+                    acceptedName: result.acceptedScientificName,
+                    dataset: EDataset.GBIF,
+                    family: result.family,
+                    country: result.country,
+                    year: result.year,
+                    month: result.month,
+                    day: result.day,
+                    latitude: result.decimalLatitude,
+                    longitude: result.decimalLongitude,
+                }));
         } catch {
-            console.log(
-                'problem on specie with name:',
-                binomialName,
-                'at offset',
-                offset,
+            throw new OccurrencyException(
+                EHttpStatuses.INTERNAL_SERVER_ERROR,
+                'Error during occurrency proccess',
             );
-
-            return [];
         }
     }
 
@@ -168,9 +166,19 @@ class GetOccurrencyUseCase {
     async executeResponse(userId: string) {
         const binomialNames = `${FILES_FOLDER}${userId}-binomialNames.csv`;
 
-        const path = await this.execute(binomialNames, userId);
+        try {
+            const path = await this.execute(binomialNames, userId);
 
-        return new DefaultResponse<string>(EHttpStatuses.SUCCESS, path);
+            return new DefaultResponse<string>(EHttpStatuses.SUCCESS, path);
+        } catch (e: unknown) {
+            if (e instanceof OccurrencyException) {
+                return new DefaultResponse<string>(e.status, e.message);
+            }
+            return new DefaultResponse<string>(
+                EHttpStatuses.INTERNAL_SERVER_ERROR,
+                'Unexpected error',
+            );
+        }
     }
 }
 
