@@ -1,0 +1,244 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "TaxonHUB API",
+        "description": "API do taxonhub, serviço de busca de taxonômias e ocorrências",
+        "version": "1.0.0",
+        "contact": {
+            "name": "TaxonHUB",
+            "url": "http://localhost:3000/",
+            "email": "caiotheodoro12345@gmail.com"
+        }
+    },
+    "paths": {
+        "/taxonomy/generatecsv": {
+            "get": {
+                "tags": [
+                    "Taxonomy"
+                ],
+                "summary": "Gera um arquivo csv com todas as taxonômias",
+                "parameters": [
+                    {
+                        "name": "BinomialName",
+                        "in": "header",
+                        "description": "Cabeçalho do arquivo csv",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "Id do usuário",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "description": "Gera um arquivo csv com todas as taxonômias",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+
+                        }
+                    },
+                
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Retorno do arquivo csv"
+                    },
+                    "400": {
+                        "description": "Objeto inválido"
+                       
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/taxonomy/download" : {
+            "get": {
+                "tags": [
+                    "Taxonomy"
+                ],
+                "summary": "Download de um arquivo csv",
+                "description": "Download de um arquivo csv",
+                "parameters" : [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "Id do usuário",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Download arquivo csv"
+                    },
+                    "400": {
+                        "description": "userID inválido"
+                       
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/occurrency/generatecsv": {
+            "get": {
+                "tags": [
+                    "Occurrency"
+                ],
+                "summary": "Gera um arquivo csv com todas as ocorrências",
+                "parameters": [
+                    {
+                        "name": "BinomialName",
+                        "in": "header",
+                        "description": "Cabeçalho do arquivo csv",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "Id do usuário",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "description": "Gera um arquivo csv com todas as ocorrências",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            }
+
+                        }
+                    },
+                
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Retorno do arquivo csv"
+                    },
+                    "400": {
+                        "description": "Objeto inválido"
+                       
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/occurrency/download" : {
+            "get": {
+                "tags": [
+                    "Occurrency"
+                ],
+                "summary": "Download de um arquivo csv",
+                "description": "Download de um arquivo csv",
+                "parameters" : [
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "description": "Id do usuário",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Download arquivo csv"
+                    },
+                    "400": {
+                        "description": "userID inválido"
+                       
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/wfo/version": {
+            "get": {
+                "tags": [
+                    "WFO"
+                ],
+                "summary": "Retorna a versão do WFO",
+                "description": "Retorna a versão do WFO",
+                "responses": {
+                    "200": {
+                        "description": "Retorno da versão do WFO"
+                    },
+                    "400": {
+                        "description": "Objeto inválido"
+                       
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        },
+        "/wfo/dbstatus": {
+            "get": {
+                "tags": [
+                    "WFO"
+                ],
+                "summary": "Retorna o status do banco de dados",
+                "description": "Retorna o status do banco de dados",
+                "responses": {
+                    "200": {
+                        "description": "Retorno do status do banco de dados"
+                    },
+                    "400": {
+                        "description": "Objeto inválido"
+                       
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Specification": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Specification name",
+                    "example": "Specification name  sample"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Specification description",
+                    "example": "Specification description  sample"
+                }
+            }
+        }
+    }
+}
