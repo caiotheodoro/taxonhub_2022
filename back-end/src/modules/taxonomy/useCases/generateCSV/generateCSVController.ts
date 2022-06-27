@@ -6,13 +6,13 @@ import { GenerateCSVUseCase } from './generateCSVUseCase';
 class GenerateCSVController {
     constructor(private generateCSVUseCase: GenerateCSVUseCase) {}
 
-    async handle(request: Request, response: Response) {
-        const { userId } = request.body;
+    async handle(request: Request, response: Response): Promise<void> {
+        const { userId } = request.query;
 
-        const data: DefaultResponse<unknown> =
-            await this.generateCSVUseCase.executeResponse(userId);
+        const data: DefaultResponse<string> =
+            await this.generateCSVUseCase.executeResponse(userId as string);
 
-        return response.status(data.status).json(data);
+        return response.download(data.data, 'taxonomy.csv');
     }
 }
 

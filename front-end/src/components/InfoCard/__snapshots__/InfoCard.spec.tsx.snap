@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NavItem components should render correctly 1`] = `
+<div>
+  <div
+    class="css-16aiygp"
+  >
+    Formato do header CSV:
+    <div
+      class="css-1suc48s"
+    >
+      <div
+        class="chakra-table__container css-zipzvv"
+      />
+      <p
+        class="chakra-text css-xvczcd"
+      />
+      <p
+        class="chakra-text css-1pmhnzl"
+      >
+        BinomialName
+      </p>
+    </div>
+  </div>
+</div>
+`;

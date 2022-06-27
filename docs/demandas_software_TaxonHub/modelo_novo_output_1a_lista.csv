@@ -1,21 +1,2 @@
-Nome pesquisado,Nomes retornados,Nome aceito/sinonimo,Sinonimo de ,Base de dados (FDB/TPL),Família respectiva da base de dados
-Eichhornia azurea,Eichhornia azurea (Sw. Kunth),nome_aceito,,FDB,Pontederiaceae
-Eichhornia azurea, Eichhornia azurea rhizantha (Seub.),sinonimo,Eichhornia azurea (Sw. Kunth),FDB,Pontederiaceae
-Eichhornia azurea, Eichhornia azurea rigida (Seub.),sinonimo,Eichhornia azurea (Sw. Kunth),FDB,Pontederiaceae
-Eichhornia azurea, Pontederia azurea (Sw.),sinonimo,Eichhornia azurea (Sw. Kunth),FDB,Pontederiaceae
-Eichhornia azurea, Eichhornia aquatica (Vell. Schltdl.),sinonimo,Eichhornia azurea (Sw. Kunth),FDB,Pontederiaceae
-Eichhornia azurea, Pontederia aquatica (Vell.),sinonimo,Eichhornia azurea (Sw. Kunth),FDB,Pontederiaceae
-Eichhornia azurea, Piaropus azureus (Sw. Raf.),sinonimo,Eichhornia azurea (Sw. Kunth),FDB,Pontederiaceae
-Eichhornia azurea, Piaropus tricolor (Raf.),sinonimo,Eichhornia azurea (Sw. Kunth),FDB,Pontederiaceae
-Eichhornia azurea, Pontederia tumida (Willd. ex Kunth),sinonimo,Eichhornia azurea (Sw. Kunth),FDB,Pontederiaceae
-Eichhornia azurea, Eichhornia azurea genuina (Seub.),sinonimo,Eichhornia azurea (Sw. Kunth),FDB,Pontederiaceae
-Eichhornia azurea,Eichhornia azurea (Sw. Kunth),nome_aceito,,TPL,Pontederiaceae
-Eichhornia azurea, Piaropus undulatus (Raf.),sinonimo,Eichhornia azurea (Sw. Kunth),TPL,Pontederiaceae
-Eichhornia azurea,Eichhornia aquatica (Vell. Schltdl.),sinonimo,Eichhornia azurea (Sw. Kunth),TPL,Pontederiaceae
-Eichhornia azurea, Eichhornia azurea rhizantha (Seub.),sinonimo,Eichhornia azurea (Sw. Kunth),TPL,Pontederiaceae
-Eichhornia azurea, Piaropus azureus (Sw. Raf.),sinonimo,Eichhornia azurea (Sw. Kunth),TPL,Pontederiaceae
-Eichhornia azurea, Piaropus tricolor (Raf.),sinonimo,Eichhornia azurea (Sw. Kunth),TPL,Pontederiaceae
-Eichhornia azurea, Piaropus undulatus (Raf.),sinonimo,Eichhornia azurea (Sw. Kunth),TPL,Pontederiaceae
-Eichhornia azurea, Pontederia aquatica (Vell.),sinonimo,Eichhornia azurea (Sw. Kunth),TPL,Pontederiaceae
-Eichhornia azurea, Pontederia azurea (Sw.),sinonimo,Eichhornia azurea (Sw. Kunth),TPL,Pontederiaceae
-Eichhornia azurea, Pontederia tumida (Willd. ex Kunth),sinonimo,Eichhornia azurea (Sw. Kunth),TPL,Pontederiaceae
+BinomialName
+Eichhornia azurea

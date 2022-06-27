@@ -1,0 +1,14 @@
+
+
+
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+
+/* From Public Directory */
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins.ttf');
+  font-style: medium;
+  font-weight: normal;
+  font-display: swap;
+}

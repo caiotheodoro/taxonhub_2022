@@ -7,7 +7,7 @@ import { IVersionData } from './types';
 
 class GetVersionUseCase {
     private readonly versionValuePositionOnPage = 3;
-    private readonly puppeteerTimeoutLimit = 180000;
+    private readonly puppeteerTimeoutLimit = 30000;
 
     constructor(private wfoRepository: WfoRepository) {}
 
@@ -44,6 +44,7 @@ class GetVersionUseCase {
             const versionFromWebsite = await this.getVersionFromWebsite(
                 'http://www.worldfloraonline.org/downloadData',
             );
+
             const savedVersion = await this.wfoRepository.getSavedVersion();
 
             const isUpdated = this.compareVersion(

@@ -18,7 +18,7 @@ class DownloadNewDataUseCase {
             return Array.from(document.links)
                 .map((link) => link.href)
                 .filter((link) => link.includes('zip'));
-        })[0];
+        });
 
         if (url === undefined || url === null) {
             throw new Error('Url was not found.');
@@ -26,7 +26,7 @@ class DownloadNewDataUseCase {
 
         await browser.close();
 
-        return url;
+        return url[0];
     }
 
     private setPath(path: string) {

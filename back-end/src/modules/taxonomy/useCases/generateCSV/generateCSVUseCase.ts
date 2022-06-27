@@ -2,6 +2,7 @@ import csvParser from 'csv-parser';
 import fs from 'fs';
 import getStream from 'get-stream';
 import ObjectsFromCsv from 'objects-to-csv';
+import { FILES_FOLDER } from 'src/modules/config/constants';
 import { DefaultResponse } from 'src/modules/http/defaultResponse';
 import { EHttpStatuses } from 'src/modules/http/httpStatus';
 import { TaxonomyModel } from 'src/modules/model/Taxonomy';
@@ -17,14 +18,12 @@ interface IBinomialName {
 }
 
 class GenerateCSVUseCase {
-    private readonly destFolder: string = './tmp/';
-
     constructor(
         private getTaxonomyByNameUseCase: GetTaxonomyByNameUseCase,
         private wfoRepository: WfoRepository,
     ) {}
 
-    async execute(entryDataPath: string, userId: string): Promise<void> {
+    async execute(entryDataPath: string, userId: string): Promise<string> {
         const columnNames =
             'Nome pesquisado,' +
             'Nome retornado,' +
@@ -34,7 +33,7 @@ class GenerateCSVUseCase {
             'Família respectiva da base de dados\n';
 
         const fileId: string = userId;
-        const outputFilePath = `${this.destFolder}${fileId}.csv`;
+        const outputFilePath = `${FILES_FOLDER}${fileId}-taxonomy.csv`;
 
         fs.writeFile(outputFilePath, columnNames, (err) => {
             if (err) {
@@ -43,7 +42,9 @@ class GenerateCSVUseCase {
         });
 
         const data = await getStream.array(
-            fs.createReadStream(entryDataPath).pipe(csvParser({ headers })),
+            fs
+                .createReadStream(entryDataPath)
+                .pipe(csvParser({ headers, skipLines: 1 })),
         );
 
         await data.reduce(async (promise, line: IBinomialName) => {
@@ -67,22 +68,24 @@ class GenerateCSVUseCase {
                 append: true,
             });
         }, Promise.resolve());
+
+        return outputFilePath;
     }
 
-    async executeResponse(userId: string): Promise<DefaultResponse<unknown>> {
+    async executeResponse(userId: string): Promise<DefaultResponse<string>> {
         this.wfoRepository.updateDatabaseConsistencyStatus(
             EMetaTableValues.inUsage,
         );
 
-        const binomialNames = `${userId}-binomialNames.csv`;
+        const binomialNames = `${FILES_FOLDER}${userId}-binomialNames.csv`;
 
-        await this.execute(binomialNames, userId);
+        const path = await this.execute(binomialNames, userId);
 
         this.wfoRepository.updateDatabaseConsistencyStatus(
             EMetaTableValues.consistent,
         );
 
-        return new DefaultResponse<unknown>(EHttpStatuses.SUCCESS, 'done');
+        return new DefaultResponse<string>(EHttpStatuses.SUCCESS, path);
     }
 }
 

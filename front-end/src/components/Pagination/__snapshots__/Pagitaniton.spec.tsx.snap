@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pagination components should render correctly 1`] = `
+<div>
+  <div
+    class="chakra-stack css-1n17tlq"
+  >
+    <div
+      class="css-kbn7if"
+    >
+      <strong>
+        0
+      </strong>
+       - 
+      <strong>
+        10
+      </strong>
+       de 
+      <strong>
+        100
+      </strong>
+    </div>
+    <div
+      class="chakra-stack css-1689b8b"
+    >
+      <button
+        class="chakra-button css-9tw1g2"
+        disabled=""
+        type="button"
+      >
+        1
+      </button>
+      <button
+        class="chakra-button css-ao8oiz"
+        type="button"
+      >
+        2
+      </button>
+      <p
+        class="chakra-text css-8t3u5b"
+      >
+        ...
+      </p>
+      <button
+        class="chakra-button css-ao8oiz"
+        type="button"
+      >
+        10
+      </button>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pagination components should render correctly 1`] = `
+<div>
+  <div
+    style="opacity: 0;"
+  >
+    <div
+      class="css-1xhj18k"
+    >
+      <div
+        class="css-cih3bh"
+      >
+        <div
+          class="css-swgfv8"
+        />
+        <div
+          class="css-1jfxfpp"
+        />
+      </div>
+      .
+    </div>
+  </div>
+</div>
+`;

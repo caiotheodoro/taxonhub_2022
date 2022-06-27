@@ -195,11 +195,8 @@ class GetTaxonomyByNameUseCase {
 
                 return unfoundData;
             }
-            if (e instanceof Error) {
-                throw new Error(e.message);
-            }
+            throw new Error('an unknown error occurred.');
         }
-        return null;
     }
 
     async executeResponse(
@@ -222,12 +219,11 @@ class GetTaxonomyByNameUseCase {
                     e.message,
                 );
             }
+            return new DefaultResponse<string>(
+                EHttpStatuses.INTERNAL_SERVER_ERROR,
+                'An unknown error occurred.',
+            );
         }
-
-        return new DefaultResponse<string>(
-            EHttpStatuses.INTERNAL_SERVER_ERROR,
-            'An unknown error occurred.',
-        );
     }
 }
 
