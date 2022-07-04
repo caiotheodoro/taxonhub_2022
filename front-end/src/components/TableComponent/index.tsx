@@ -9,6 +9,7 @@ import {
   Tr,
   useBreakpointValue,
   Text,
+  Input,
 } from "@chakra-ui/react";
 import { Pagination } from "../Pagination/index";
 import { useEffect, useState } from "react";
@@ -44,8 +45,26 @@ export function TableComponent({ model, ...rest }: DatasetListProps) {
         <Box flex="1" borderRadius={8} bg="green.light" p="6">
           <Flex mb="8" justify="space-between" align="center">
             <Text px={["4", "4", "6"]} fontSize="lg" fontWeight="medium" color="gray.900">
-              PREVIEW DOS DADOS
+              Tabela dos resultados
             </Text>
+            <Box>
+              Escolher pagina
+            <Input
+                w={100}
+                ml="2"
+                size="sm"
+                variant={"filled"}
+                type="number"
+                value={page}
+                onChange={(e) => {
+                    const page = parseInt(e.target.value);
+                    if(page > 0 && page != NaN) {
+                    setPage(page);
+                    }
+                }}
+            />
+
+            </Box>
           </Flex>
           <>
             <Table colorScheme="blackAlpha" size={"sm"} sx={{
@@ -114,7 +133,7 @@ export function TableComponent({ model, ...rest }: DatasetListProps) {
             <Pagination
               totalCountOfRegisters={dataset.dataset.length}
               currentPage={page}
-              registersPerPage={3}
+              registersPerPage={4}
               onPageChange={setPage}
             />
           </>

@@ -1,63 +1,142 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "TaxonHUB API",
-        "description": "API do taxonhub, serviço de busca de taxonômias e ocorrências",
+        "title": "Taxonhub API",
+        "description": "This is an API Taxon",
         "version": "1.0.0",
         "contact": {
-            "name": "TaxonHUB",
-            "url": "http://localhost:3000/",
-            "email": "caiotheodoro12345@gmail.com"
+            "name": "Taxonhub"
         }
     },
     "paths": {
-        "/taxonomy/generatecsv": {
+        "/": {
+            "post": {
+                "tags": [
+                    "taxonomyRoutes"
+                ],
+                "summary": "Create a new category",
+                "description": "Create a new category",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "searchedName": {
+                                        "type": "string",
+                                        "description": "Category searched name"
+                                    },
+                                    "returnedName": {
+                                        "type": "string",
+                                        "description": "Category returned name"
+                                    },
+                                    "acceptedNameOrSynonym": {
+                                        "type": "string",
+                                        "description": "Category accepted name or synonym"
+                                    },
+                                    "synonymName": {
+                                        "type": "string",
+                                        "description": "Category synonym name"
+                                    },
+                                    "dataset": {
+                                        "type": "string",
+                                        "description": "Category dataset"
+                                    },
+                                    "respectiveFamily": {
+                                        "type": "string",
+                                        "description": "Category respective family"
+                                    }
+                                }
+                            }
+                           
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Category created"
+                    },
+                    "400": {
+                        "description": "Invalid category object"
+                       
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                }
+            },
             "get": {
                 "tags": [
-                    "Taxonomy"
+                    "taxonomyRoutes"
                 ],
-                "summary": "Gera um arquivo csv com todas as taxonômias",
-                "parameters": [
-                    {
-                        "name": "BinomialName",
-                        "in": "header",
-                        "description": "Cabeçalho do arquivo csv",
-                        "required": true,
-                        "type": "string"
+                "summary": "List all categories",
+                "description": "List all categories",
+                "responses": {
+                    "200": {
+                        "description": "Categories list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "format": "int64",
+                                                "description": "Category id",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "Category name"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "description": "Category description"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     },
-                    {
-                        "name": "userId",
-                        "in": "query",
-                        "description": "Id do usuário",
-                        "required": true,
-                        "type": "string"
+                    "500": {
+                        "description": "Internal server error"
                     }
+                }
+            }
+        },
+        "/specie" : {
+            "post": {
+                "tags": [
+                    "taxonomyRoutes"
                 ],
-                "description": "Gera um arquivo csv com todas as taxonômias",
+                "summary": "scientificName categories",
+                "description": "scientificName categories",
                 "requestBody": {
                     "content": {
                         "multipart/form-data": {
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "file": {
-                                        "type": "string",
-                                        "format": "binary"
+                                    "name": {
+                                        "type": "string"
                                     }
                                 }
                             }
-
+                           
                         }
                     },
-                
                     "required": true
                 },
                 "responses": {
-                    "200": {
-                        "description": "Retorno do arquivo csv"
+                    "201": {
+                        "description": "Categories imported"
                     },
                     "400": {
-                        "description": "Objeto inválido"
+                        "description": "Invalid category object"
                        
                     },
                     "500": {
@@ -66,83 +145,100 @@
                 }
             }
         },
-        "/taxonomy/download" : {
-            "get": {
+        "/generatecsv": {
+            "post": {
                 "tags": [
-                    "Taxonomy"
+                    "taxonomyRoutes"
                 ],
-                "summary": "Download de um arquivo csv",
-                "description": "Download de um arquivo csv",
-                "parameters" : [
-                    {
-                        "name": "userId",
-                        "in": "query",
-                        "description": "Id do usuário",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
+                "summary": "generate csv categories",
+                "description": "generate csv categories",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Specification"
+                            }
+                           
+                        }
+                    },
+                    "required": true
+                },
                 "responses": {
                     "201": {
-                        "description": "Download arquivo csv"
+                        "description": "Specification created"
                     },
                     "400": {
-                        "description": "userID inválido"
+                        "description": "Invalid specification object"
                        
                     },
                     "500": {
                         "description": "Internal server error"
                     }
                 }
-            }
-        },
-        "/occurrency/generatecsv": {
+            },
             "get": {
                 "tags": [
-                    "Occurrency"
+                    "taxonomyRoutes"
                 ],
-                "summary": "Gera um arquivo csv com todas as ocorrências",
-                "parameters": [
-                    {
-                        "name": "BinomialName",
-                        "in": "header",
-                        "description": "Cabeçalho do arquivo csv",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "userId",
-                        "in": "query",
-                        "description": "Id do usuário",
-                        "required": true,
-                        "type": "string"
+                "summary": "generate csv categories",
+                "description": "generate csv categories",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "fileId": {
+                                                "type": "string"
+                                            },
+                                            "columnNames": {
+                                                "type": "string",
+                                                "description": "Specification columnNames "
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
+                }
+            }
+        },
+        "/import" : {
+            "post": {
+                "tags": [
+                    "taxonomyRoutes"
                 ],
-                "description": "Gera um arquivo csv com todas as ocorrências",
+                "summary": "import csv categories",
+                "description": "import csv categories",
                 "requestBody": {
                     "content": {
                         "multipart/form-data": {
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "file": {
-                                        "type": "string",
-                                        "format": "binary"
+                                    "stream": {
+                                        "type": "string"
+                                    },
+                                    "taxonomies": {
+                                        "type": "string"
                                     }
                                 }
                             }
-
+                           
                         }
                     },
-                
                     "required": true
                 },
                 "responses": {
-                    "200": {
-                        "description": "Retorno do arquivo csv"
+                    "201": {
+                        "description": "Categories imported"
                     },
                     "400": {
-                        "description": "Objeto inválido"
+                        "description": "Invalid category object"
                        
                     },
                     "500": {
@@ -151,28 +247,35 @@
                 }
             }
         },
-        "/occurrency/download" : {
-            "get": {
+        "/version" : {
+            "post": {
                 "tags": [
-                    "Occurrency"
+                    "wfoRoutes"
                 ],
-                "summary": "Download de um arquivo csv",
-                "description": "Download de um arquivo csv",
-                "parameters" : [
-                    {
-                        "name": "userId",
-                        "in": "query",
-                        "description": "Id do usuário",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
+                "summary": "last version categories",
+                "description": "last version categories",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                           
+                        }
+                    },
+                    "required": true
+                },
                 "responses": {
                     "201": {
-                        "description": "Download arquivo csv"
+                        "description": "Categories imported"
                     },
                     "400": {
-                        "description": "userID inválido"
+                        "description": "Invalid category object"
                        
                     },
                     "500": {
@@ -181,40 +284,35 @@
                 }
             }
         },
-        "/wfo/version": {
-            "get": {
+        "/dbstatus" : {
+            "post": {
                 "tags": [
-                    "WFO"
+                    "wfoRoutes"
                 ],
-                "summary": "Retorna a versão do WFO",
-                "description": "Retorna a versão do WFO",
+                "summary": "dbstatus categories",
+                "description": "dbstatus categories",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                           
+                        }
+                    },
+                    "required": true
+                },
                 "responses": {
-                    "200": {
-                        "description": "Retorno da versão do WFO"
+                    "201": {
+                        "description": "Categories imported"
                     },
                     "400": {
-                        "description": "Objeto inválido"
-                       
-                    },
-                    "500": {
-                        "description": "Internal server error"
-                    }
-                }
-            }
-        },
-        "/wfo/dbstatus": {
-            "get": {
-                "tags": [
-                    "WFO"
-                ],
-                "summary": "Retorna o status do banco de dados",
-                "description": "Retorna o status do banco de dados",
-                "responses": {
-                    "200": {
-                        "description": "Retorno do status do banco de dados"
-                    },
-                    "400": {
-                        "description": "Objeto inválido"
+                        "description": "Invalid category object"
                        
                     },
                     "500": {
@@ -230,13 +328,11 @@
             "properties": {
                 "name": {
                     "type": "string",
-                    "description": "Specification name",
-                    "example": "Specification name  sample"
+                    "description": "Specification name"
                 },
                 "description": {
                     "type": "string",
-                    "description": "Specification description",
-                    "example": "Specification description  sample"
+                    "description": "Specification description"
                 }
             }
         }
