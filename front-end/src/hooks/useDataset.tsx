@@ -102,14 +102,17 @@ export function DatasetProvider({ children }: IProviderProps) {
         //8 position array of csv
 
 
-        const csvArray = new Array(15).fill(0).map(
-          (_, i) => csv.split("\n")[i + 1] && csv.split("\n")[i + 1].split(",")
-        );
+        // const csvArray = new Array(15).fill(0).map(
+        //   (_, i) => csv.split("\n")[i + 1] && csv.split("\n")[i + 1].split(",")
+        // );
         
+        const csvArray = csv.split("\n").map(
+          (_: any, i: number) => csv.split("\n")[i + 1] && csv.split("\n")[i + 1].split(",")
+        );
         //clear undefined values of csvArray
          
 
-       setDataset({dataset: csvArray.filter(item => item !== undefined && item !== '').map((row, index) => {
+       setDataset({dataset: csvArray.filter((item: string) => item !== undefined && item !== '').map((row: any[], index: any) => {
         if(model === 'occurrency'){
           return {
             searchedName: row[0],
